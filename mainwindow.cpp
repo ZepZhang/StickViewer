@@ -9,14 +9,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->openMyComBtn->setEnabled(true);
     ui->closeMyComBtn->setEnabled(false);
     //this button is just for debugging
-    //ui->pushButton->setVisible(false);
+    ui->pushButton->setVisible(false);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//点击打开串口时，对mySerialPort对象的一些属性进行设置，然后用open打开串口
 void MainWindow::on_openMyComBtn_clicked()
 {
     mySerialPort.setPortName(ui->portNameComboBox->currentText());
@@ -29,14 +29,14 @@ void MainWindow::on_openMyComBtn_clicked()
     ui->openMyComBtn->setEnabled(false);
     ui->closeMyComBtn->setEnabled(true);
 }
-
+//同理当点击关闭串口函数时，进行一些处理
 void MainWindow::on_closeMyComBtn_clicked()
 {
     mySerialPort.close();
     ui->openMyComBtn->setEnabled(true);
     ui->closeMyComBtn->setEnabled(false);
 }
-
+//这是一个槽函数，理解
 void MainWindow::refreshUi(QByteArray content)
 {
     refreshTextEditors(content);
@@ -51,7 +51,7 @@ void MainWindow::refreshTextEditors(QByteArray ba)
     ui->lineEdit->setText(x.toString());
     ui->lineEdit_2->setText(y.toString());
 }
-
+//这里需理解QcustomPlot是我采用的一个开源模块，用于绘制坐标系
 void MainWindow::refreshCoordinates(QByteArray ba)
 {
     QCustomPlot *customPlot = ui->customPlot;

@@ -50,13 +50,13 @@ SerialPortReader::SerialPortReader(QSerialPort *serialPort, QObject *parent)
 SerialPortReader::~SerialPortReader()
 {
 }
-
+//每当串口传来数据会触发该函数
 void SerialPortReader::handleReadyRead()
 {
     m_readData.append(m_serialPort->readAll());
     dataSender(m_readData);
 }
-
+//此函数实现从串口缓冲数组里解析出我们需要的数据功能，主要根据数据头[[
 void SerialPortReader::dataSender(QByteArray & serialTemp)
 {
             //refer to ascII
@@ -75,14 +75,14 @@ void SerialPortReader::dataSender(QByteArray & serialTemp)
                 }
              }
 }
-
+//把数据头和尾去掉，只拿出x和y两个字节,这里应该没有处理按钮数据，需要你添加
 QByteArray SerialPortReader::dataProcessing(QByteArray & serialTemp)
 {
     //get the x and y two bytes
     serialTemp =  serialTemp.mid(serialTemp.indexOf(']')-2,2);
     return serialTemp;
 }
-
+//错误处理函数
 void SerialPortReader::handleError(QSerialPort::SerialPortError serialPortError)
 {
     if (serialPortError == QSerialPort::ReadError)
